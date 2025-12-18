@@ -1,299 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>MindCare AI – Project Presentation</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MindCare AI – Project Presentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
-}
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
 
+      body {
+        min-height: 100vh;
+        background: radial-gradient(
+            circle at 20% 30%,
+            #6366f1 0%,
+            transparent 45%
+          ),
+          radial-gradient(circle at 80% 20%, #22d3ee 0%, transparent 45%),
+          radial-gradient(circle at 50% 80%, #a855f7 0%, transparent 45%),
+          linear-gradient(120deg, #020617, #0f172a, #020617);
+        background-size: 200% 200%;
+        animation: bgMove 18s ease infinite;
+        color: white;
+        overflow: hidden;
+      }
 
-body{
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 20% 30%, #6366f1 0%, transparent 45%),
-    radial-gradient(circle at 80% 20%, #22d3ee 0%, transparent 45%),
-    radial-gradient(circle at 50% 80%, #a855f7 0%, transparent 45%),
-    linear-gradient(120deg, #020617, #0f172a, #020617);
-  background-size:200% 200%;
-  animation:bgMove 18s ease infinite;
-  color:white;
-  overflow:hidden;
-}
+      @keyframes bgMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
 
-@keyframes bgMove{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
+      .sphere {
+        position: fixed;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 0.3),
+          rgba(255, 255, 255, 0.05)
+        );
+        box-shadow: inset -20px -20px 40px rgba(0, 0, 0, 0.3),
+          inset 20px 20px 40px rgba(255, 255, 255, 0.1),
+          0 0 80px rgba(99, 102, 241, 0.6);
+        filter: blur(0.2px);
+        animation: float3d 14s ease-in-out infinite alternate;
+        z-index: 0;
+        opacity: 0.85;
+      }
 
-.sphere{
-  position:fixed;
-  border-radius:50%;
-  background:
-    radial-gradient(circle at 30% 30%,
-      rgba(255,255,255,0.9),
-      rgba(255,255,255,0.3),
-      rgba(255,255,255,0.05));
-  box-shadow:
-    inset -20px -20px 40px rgba(0,0,0,0.3),
-    inset 20px 20px 40px rgba(255,255,255,0.1),
-    0 0 80px rgba(99,102,241,0.6);
-  filter:blur(0.2px);
-  animation:float3d 14s ease-in-out infinite alternate;
-  z-index:0;
-  opacity:0.85;
-}
+      .s1 {
+        width: 180px;
+        height: 180px;
+        top: 12%;
+        left: 6%;
+      }
+      .s2 {
+        width: 260px;
+        height: 260px;
+        bottom: 18%;
+        right: 8%;
+      }
+      .s3 {
+        width: 140px;
+        height: 140px;
+        top: 55%;
+        left: 75%;
+      }
 
-.s1{width:180px;height:180px;top:12%;left:6%}
-.s2{width:260px;height:260px;bottom:18%;right:8%}
-.s3{width:140px;height:140px;top:55%;left:75%}
+      @keyframes float3d {
+        from {
+          transform: translateY(0) translateX(0);
+        }
+        to {
+          transform: translateY(-80px) translateX(60px);
+        }
+      }
 
-@keyframes float3d{
-  from{transform:translateY(0) translateX(0)}
-  to{transform:translateY(-80px) translateX(60px)}
-}
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 80px 8%;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 1;
+      }
 
+      .slide.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
 
-.slide{
-  position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:80px 8%;
-  opacity:0;
-  pointer-events:none;
-  z-index:1;
-}
+      .glass {
+        width: 100%;
+        max-width: 1100px;
+        padding: 50px;
+        border-radius: 36px;
+        background: rgba(255, 255, 255, 0.14);
+        backdrop-filter: blur(32px);
+        box-shadow: 0 0 90px rgba(99, 102, 241, 0.45),
+          inset 0 0 35px rgba(255, 255, 255, 0.15);
+        position: relative;
+        overflow: hidden;
+      }
 
-.slide.active{
-  opacity:1;
-  pointer-events:auto;
-}
+      .glass::before {
+        content: "";
+        position: absolute;
+        inset: -60%;
+        background: linear-gradient(
+          120deg,
+          transparent 40%,
+          rgba(255, 255, 255, 0.7) 50%,
+          transparent 60%
+        );
+        transform: rotate(25deg) translateX(-100%);
+        animation: shine 5s infinite;
+      }
 
+      @keyframes shine {
+        to {
+          transform: rotate(25deg) translateX(100%);
+        }
+      }
 
-.glass{
-  width:100%;
-  max-width:1100px;
-  padding:50px;
-  border-radius:36px;
-  background:rgba(255,255,255,0.14);
-  backdrop-filter:blur(32px);
-  box-shadow:
-    0 0 90px rgba(99,102,241,0.45),
-    inset 0 0 35px rgba(255,255,255,0.15);
-  position:relative;
-  overflow:hidden;
-}
+      h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        text-align: center;
+        background: linear-gradient(90deg, #a5b4fc, #67e8f9, #a5b4fc);
+        background-size: 200% auto;
+        animation: textGlow 4s linear infinite;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
+      @keyframes textGlow {
+        to {
+          background-position: 200% center;
+        }
+      }
 
-.glass::before{
-  content:"";
-  position:absolute;
-  inset:-60%;
-  background:linear-gradient(
-    120deg,
-    transparent 40%,
-    rgba(255,255,255,0.7) 50%,
-    transparent 60%
-  );
-  transform:rotate(25deg) translateX(-100%);
-  animation:shine 5s infinite;
-}
+      h2 {
+        font-size: 2.6rem;
+        margin-bottom: 20px;
+      }
+      p,
+      li {
+        font-size: 1.1rem;
+        line-height: 1.9;
+      }
+      ul {
+        margin-left: 20px;
+      }
 
-@keyframes shine{
-  to{transform:rotate(25deg) translateX(100%)}
-}
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 28px;
+      }
 
+      .card {
+        position: relative;
+        padding: 28px;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.18);
+        box-shadow: 0 0 45px rgba(56, 189, 248, 0.55);
+        overflow: hidden;
+      }
 
-h1{
-  font-size:4rem;
-  font-weight:800;
-  text-align:center;
-  background:linear-gradient(90deg,#a5b4fc,#67e8f9,#a5b4fc);
-  background-size:200% auto;
-  animation:textGlow 4s linear infinite;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: -50%;
+        background: linear-gradient(
+          120deg,
+          transparent 40%,
+          rgba(255, 255, 255, 0.8) 50%,
+          transparent 60%
+        );
+        transform: rotate(25deg) translateX(-100%);
+        animation: shine 4s infinite;
+      }
 
-@keyframes textGlow{
-  to{background-position:200% center}
-}
+      #fsBtn {
+        position: fixed;
+        top: 15px;
+        right: 20px;
+        z-index: 999;
+        padding: 10px 16px;
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.55);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        cursor: pointer;
+        backdrop-filter: blur(12px);
+      }
 
-h2{font-size:2.6rem;margin-bottom:20px}
-p,li{font-size:1.1rem;line-height:1.9}
-ul{margin-left:20px}
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2.7rem;
+        }
+        h2 {
+          font-size: 2rem;
+        }
+        .glass {
+          padding: 30px;
+        }
+      }
+    </style>
+  </head>
 
+  <body>
+    <button id="fsBtn">⛶ Full Screen</button>
 
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:28px;
-}
+    <div class="sphere s1"></div>
+    <div class="sphere s2"></div>
+    <div class="sphere s3"></div>
 
-.card{
-  position:relative;
-  padding:28px;
-  border-radius:28px;
-  background:rgba(255,255,255,0.18);
-  box-shadow:0 0 45px rgba(56,189,248,0.55);
-  overflow:hidden;
-}
-
-
-.card::before{
-  content:"";
-  position:absolute;
-  inset:-50%;
-  background:linear-gradient(
-    120deg,
-    transparent 40%,
-    rgba(255,255,255,0.8) 50%,
-    transparent 60%
-  );
-  transform:rotate(25deg) translateX(-100%);
-  animation:shine 4s infinite;
-}
-
-
-#fsBtn{
-  position:fixed;
-  top:15px;
-  right:20px;
-  z-index:999;
-  padding:10px 16px;
-  border-radius:14px;
-  background:rgba(0,0,0,0.55);
-  color:white;
-  border:1px solid rgba(255,255,255,0.3);
-  cursor:pointer;
-  backdrop-filter:blur(12px);
-}
-
-
-@media(max-width:600px){
-  h1{font-size:2.7rem}
-  h2{font-size:2rem}
-  .glass{padding:30px}
-}
-</style>
-</head>
-
-<body>
-
-<button id="fsBtn">⛶ Full Screen</button>
-
-
-<div class="sphere s1"></div>
-<div class="sphere s2"></div>
-<div class="sphere s3"></div>
-
-
-
-<div class="slide active">
-  <div class="glass">
-    <h1>MindCare AI</h1>
-    <p style="text-align:center;margin-top:18px">
-      Mental Health Chatbot Web Application
-    </p>
-  </div>
-</div>
-
-<div class="slide">
-  <div class="glass">
-    <h2>Introduction</h2>
-    <p>
-     Mental health is a very important part of student life. Due to academic pressure, stress, and personal challenges, many students face emotional difficulties. However, most students hesitate to speak openly due to fear of judgement or lack of immediate support.
-
-      MindCare AI is designed to provide a safe, friendly, and private platform where students can express their feelings and receive supportive responses using artificial intelligence.
-    </p>
-  </div>
-</div>
-
-<div class="slide">
-  <div class="glass">
-    <h2>Objectives</h2>
-    <p>The main objectives of our project are to develop a real-world web application using Python, create a responsive and user-friendly interface, integrate an AI-based chatbot for meaningful interaction, and understand backend-frontend communication using APIs.
-
-This project also helped us gain practical experience in full-stack development.”</p>
-  </div>
-</div>
-<div class="slide">
-  <div class="glass">
-    <h2>Problem statements</h2>
-    <p>Many students experience stress and anxiety but do not have immediate access to emotional support. Traditional counseling systems may not always be available or approachable.
-
-Therefore, there is a need for a simple, accessible, and friendly digital solution that students can use anytime</p>
-  </div>
-</div>
-
-<div class="slide">
-  <div class="glass">
-    <h2>Applications & Impact</h2>
-    <div class="cards">
-      <div class="card">Helps students manage stress and anxiety</div>
-      <div class="card">Promotes early emotional support</div>
-      <div class="card">Can be integrated into college systems</div>
+    <div class="slide active">
+      <div class="glass">
+        <h1>MindCare AI</h1>
+        <p style="text-align: center; margin-top: 18px">
+          Mental Health Chatbot Web Application
+        </p>
+      </div>
     </div>
-  </div>
-</div>
 
-<div class="slide">
-  <div class="glass">
-    <h2>Conclusion</h2>
-    <p>
-      MindCare AI is a practical and real-world web application that demonstrates the use of Python, web technologies, and artificial intelligence to solve a meaningful problem. The project helped in understanding full-stack development, API integration, and responsive UI design. This system can be further enhanced to provide more advanced mental health support features.
-    </p>
-    <p style="margin-top:25px;font-size:1.3rem;text-align:center">
-      Thank You 
-    </p>
-  </div>
-</div>
+    <div class="slide">
+      <div class="glass">
+        <h2>Introduction</h2>
+        <p>
+          Mental health is a very important part of student life. Due to
+          academic pressure, stress, and personal challenges, many students face
+          emotional difficulties. However, most students hesitate to speak
+          openly due to fear of judgement or lack of immediate support. MindCare
+          AI is designed to provide a safe, friendly, and private platform where
+          students can express their feelings and receive supportive responses
+          using artificial intelligence.
+        </p>
+      </div>
+    </div>
 
-<script>
-let slides = document.querySelectorAll(".slide");
-let index = 0;
+    <div class="slide">
+      <div class="glass">
+        <h2>Objectives</h2>
+        <p>
+          The main objectives of our project are to develop a real-world web
+          application using Python, create a responsive and user-friendly
+          interface, integrate an AI-based chatbot for meaningful interaction,
+          and understand backend-frontend communication using APIs. This project
+          also helped us gain practical experience in full-stack development.”
+        </p>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="glass">
+        <h2>Problem statements</h2>
+        <p>
+          Many students experience stress and anxiety but do not have immediate
+          access to emotional support. Traditional counseling systems may not
+          always be available or approachable. Therefore, there is a need for a
+          simple, accessible, and friendly digital solution that students can
+          use anytime
+        </p>
+      </div>
+    </div>
 
-function showSlide(i){
-  slides.forEach(s=>s.classList.remove("active"));
-  slides[i].classList.add("active");
-  gsap.from(slides[i].querySelector(".glass"),{
-    opacity:0,
-    y:80,
-    duration:1
-  });
-}
+    <div class="slide">
+      <div class="glass">
+        <h2>Applications & Impact</h2>
+        <div class="cards">
+          <div class="card">Helps students manage stress and anxiety</div>
+          <div class="card">Promotes early emotional support</div>
+          <div class="card">Can be integrated into college systems</div>
+        </div>
+      </div>
+    </div>
 
-document.addEventListener("keydown",e=>{
-  if(e.key==="ArrowRight"||e.key==="ArrowDown"){
-    index=(index+1)%slides.length;
-    showSlide(index);
-  }
-  if(e.key==="ArrowLeft"||e.key==="ArrowUp"){
-    index=(index-1+slides.length)%slides.length;
-    showSlide(index);
-  }
-});
+    <div class="slide">
+      <div class="glass">
+        <h2>Conclusion</h2>
+        <p>
+          MindCare AI is a practical and real-world web application that
+          demonstrates the use of Python, web technologies, and artificial
+          intelligence to solve a meaningful problem. The project helped in
+          understanding full-stack development, API integration, and responsive
+          UI design. This system can be further enhanced to provide more
+          advanced mental health support features.
+        </p>
+      </div>
+    </div>
+    <div class="slide">
+      <div class="glass">
+        <h1 style="font-size: 50px; text-align: center">Thank You</h1>
+      </div>
+    </div>
 
-document.getElementById("fsBtn").onclick=()=>{
-  if(!document.fullscreenElement){
-    document.documentElement.requestFullscreen();
-  }else{
-    document.exitFullscreen();
-  }
-};
-</script>
+    <script>
+      let slides = document.querySelectorAll(".slide");
+      let index = 0;
 
-</body>
+      function showSlide(i) {
+        slides.forEach((s) => s.classList.remove("active"));
+        slides[i].classList.add("active");
+        gsap.from(slides[i].querySelector(".glass"), {
+          opacity: 0,
+          y: 80,
+          duration: 1,
+        });
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+          index = (index + 1) % slides.length;
+          showSlide(index);
+        }
+        if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+          index = (index - 1 + slides.length) % slides.length;
+          showSlide(index);
+        }
+      });
+
+      document.getElementById("fsBtn").onclick = () => {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      };
+    </script>
+  </body>
 </html>

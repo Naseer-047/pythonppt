@@ -1,130 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>MindCare AI – Project Presentation</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>MindCare AI – Project Presentation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css">
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
 
-  <!-- GSAP -->
-  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
-  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+/* 🌌 BASE BACKGROUND */
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 20% 30%, #6366f1 0%, transparent 45%),
+    radial-gradient(circle at 80% 20%, #22d3ee 0%, transparent 45%),
+    radial-gradient(circle at 50% 80%, #a855f7 0%, transparent 45%),
+    linear-gradient(120deg, #020617, #0f172a, #020617);
+  background-size:200% 200%;
+  animation:bgMove 18s ease infinite;
+  color:white;
+  overflow:hidden;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* 🪐 3D SPHERES */
+.sphere{
+  position:fixed;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 30%,
+      rgba(255,255,255,0.9),
+      rgba(255,255,255,0.3),
+      rgba(255,255,255,0.05));
+  box-shadow:
+    inset -20px -20px 40px rgba(0,0,0,0.3),
+    inset 20px 20px 40px rgba(255,255,255,0.1),
+    0 0 80px rgba(99,102,241,0.6);
+  filter:blur(0.2px);
+  animation:float3d 14s ease-in-out infinite alternate;
+  z-index:0;
+  opacity:0.85;
+}
+
+.s1{width:180px;height:180px;top:12%;left:6%}
+.s2{width:260px;height:260px;bottom:18%;right:8%}
+.s3{width:140px;height:140px;top:55%;left:75%}
+
+@keyframes float3d{
+  from{transform:translateY(0) translateX(0)}
+  to{transform:translateY(-80px) translateX(60px)}
+}
+
+/* 🎞️ Slides */
+.slide{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:80px 8%;
+  opacity:0;
+  pointer-events:none;
+  z-index:1;
+}
+
+.slide.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* 🧊 GLASS CONTAINER */
+.glass{
+  width:100%;
+  max-width:1100px;
+  padding:50px;
+  border-radius:36px;
+  background:rgba(255,255,255,0.14);
+  backdrop-filter:blur(32px);
+  box-shadow:
+    0 0 90px rgba(99,102,241,0.45),
+    inset 0 0 35px rgba(255,255,255,0.15);
+  position:relative;
+  overflow:hidden;
+}
+
+/* ✨ SHINE SWEEP FOR ALL GLASS */
+.glass::before{
+  content:"";
+  position:absolute;
+  inset:-60%;
+  background:linear-gradient(
+    120deg,
+    transparent 40%,
+    rgba(255,255,255,0.7) 50%,
+    transparent 60%
+  );
+  transform:rotate(25deg) translateX(-100%);
+  animation:shine 5s infinite;
+}
+
+@keyframes shine{
+  to{transform:rotate(25deg) translateX(100%)}
+}
+
+/* ✨ TEXT */
+h1{
+  font-size:4rem;
+  font-weight:800;
+  text-align:center;
+  background:linear-gradient(90deg,#a5b4fc,#67e8f9,#a5b4fc);
+  background-size:200% auto;
+  animation:textGlow 4s linear infinite;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+@keyframes textGlow{
+  to{background-position:200% center}
+}
+
+h2{font-size:2.6rem;margin-bottom:20px}
+p,li{font-size:1.1rem;line-height:1.9}
+ul{margin-left:20px}
+
+/* 💎 SHINY BUBBLE BOXES */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:28px;
+}
+
+.card{
+  position:relative;
+  padding:28px;
+  border-radius:28px;
+  background:rgba(255,255,255,0.18);
+  box-shadow:0 0 45px rgba(56,189,248,0.55);
+  overflow:hidden;
+}
+
+/* Shine per card */
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-50%;
+  background:linear-gradient(
+    120deg,
+    transparent 40%,
+    rgba(255,255,255,0.8) 50%,
+    transparent 60%
+  );
+  transform:rotate(25deg) translateX(-100%);
+  animation:shine 4s infinite;
+}
+
+/* 🖥️ Fullscreen */
+#fsBtn{
+  position:fixed;
+  top:15px;
+  right:20px;
+  z-index:999;
+  padding:10px 16px;
+  border-radius:14px;
+  background:rgba(0,0,0,0.55);
+  color:white;
+  border:1px solid rgba(255,255,255,0.3);
+  cursor:pointer;
+  backdrop-filter:blur(12px);
+}
+
+/* 📱 Mobile */
+@media(max-width:600px){
+  h1{font-size:2.7rem}
+  h2{font-size:2rem}
+  .glass{padding:30px}
+}
+</style>
 </head>
+
 <body>
 
-<!-- HERO -->
-<section class="slide hero">
-  <h1>MindCare AI</h1>
-  <p>Mental Health Chatbot Web Application</p>
-</section>
+<button id="fsBtn">⛶ Full Screen</button>
 
-<!-- STUDENT DETAILS -->
-<section class="slide">
-  <h2>Student Details</h2>
-  <div class="card">
-    <p><b>Naseer Pasha</b> – 1GA25IS124-T</p>
-    <p><b>Kumar Ms</b> – 1GA25IS148-T</p>
-    <p><b>Jaychandra H L</b> – 1GA25IS129-T</p>
-    <p><b>Pranam Vinod Nayak</b> – 1GA25IS099-T</p>
-    <p><b>Section:</b> G2</p>
-    <p><b>Branch:</b> Information Science and Engineering</p>
-    <p><b>Subject:</b> Python Programming</p>
+<!-- 3D SPHERES -->
+<div class="sphere s1"></div>
+<div class="sphere s2"></div>
+<div class="sphere s3"></div>
+
+<!-- SLIDES -->
+
+<div class="slide active">
+  <div class="glass">
+    <h1>MindCare AI</h1>
+    <p style="text-align:center;margin-top:18px">
+      Mental Health Chatbot Web Application
+    </p>
   </div>
-</section>
+</div>
 
-<!-- INTRODUCTION -->
-<section class="slide">
-  <h2>Introduction</h2>
-  <p>
-    Mental health is an important aspect of student life. Many students face
-    stress, anxiety, and emotional challenges but hesitate to seek help.
-    MindCare AI provides a safe, friendly platform where students can
-    communicate and receive supportive responses using artificial intelligence.
-  </p>
-</section>
+<div class="slide">
+  <div class="glass">
+    <h2>Introduction</h2>
+    <p>
+      Mental health is a vital aspect of student life. Academic pressure,
+      emotional stress, and personal challenges affect well-being. MindCare AI
+      offers a friendly, AI-powered platform for support.
+    </p>
+  </div>
+</div>
 
-<!-- OBJECTIVES -->
-<section class="slide">
-  <h2>Objectives</h2>
-  <ul>
-    <li>Develop a real-world web application using Python</li>
-    <li>Create a responsive and user-friendly interface</li>
-    <li>Integrate an AI-based chatbot</li>
-    <li>Implement dark and light mode</li>
-    <li>Understand backend–frontend communication</li>
-  </ul>
-</section>
+<div class="slide">
+  <div class="glass">
+    <h2>Objectives</h2>
+    <ul>
+      <li>Develop a real-world Python web application</li>
+      <li>Integrate AI chatbot interaction</li>
+      <li>Create responsive and modern UI</li>
+      <li>Enhance mental well-being using technology</li>
+    </ul>
+  </div>
+</div>
 
-<!-- PROBLEM -->
-<section class="slide">
-  <h2>Problem Statement</h2>
-  <p>
-    Students often lack immediate emotional support. Traditional counseling
-    systems are not always accessible. There is a need for a simple and
-    approachable digital solution.
-  </p>
-</section>
+<div class="slide">
+  <div class="glass">
+    <h2>Applications & Impact</h2>
+    <div class="cards">
+      <div class="card">Helps students manage stress and anxiety</div>
+      <div class="card">Promotes early emotional support</div>
+      <div class="card">Can be integrated into college systems</div>
+    </div>
+  </div>
+</div>
 
-<!-- SOLUTION -->
-<section class="slide">
-  <h2>Proposed Solution</h2>
-  <p>
-    MindCare AI is a web-based chatbot that allows students to ask questions
-    and share their feelings. It uses an AI API to generate meaningful and
-    supportive responses in real time.
-  </p>
-</section>
+<div class="slide">
+  <div class="glass">
+    <h2>Conclusion</h2>
+    <p>
+      MindCare AI demonstrates how Python, AI, and web technologies can solve
+      real-world problems through innovation and empathy.
+    </p>
+    <p style="margin-top:25px;font-size:1.3rem;text-align:center">
+      Thank You 💙
+    </p>
+  </div>
+</div>
 
-<!-- ARCHITECTURE -->
-<section class="slide">
-  <h2>System Architecture</h2>
-  <ul>
-    <li>Frontend: HTML, CSS, JavaScript</li>
-    <li>Backend: Python (Flask)</li>
-    <li>AI Service: Groq / OpenAI API</li>
-    <li>Communication: REST API (JSON)</li>
-  </ul>
-</section>
+<script>
+let slides = document.querySelectorAll(".slide");
+let index = 0;
 
-<!-- FEATURES -->
-<section class="slide">
-  <h2>Features</h2>
-  <ul>
-    <li>AI-powered chatbot</li>
-    <li>Responsive design</li>
-    <li>Dark and light mode</li>
-    <li>Modern chat interface</li>
-    <li>Smooth animations</li>
-  </ul>
-</section>
+function showSlide(i){
+  slides.forEach(s=>s.classList.remove("active"));
+  slides[i].classList.add("active");
+  gsap.from(slides[i].querySelector(".glass"),{
+    opacity:0,
+    y:80,
+    duration:1
+  });
+}
 
-<!-- FUTURE -->
-<section class="slide">
-  <h2>Future Enhancements</h2>
-  <ul>
-    <li>User login and authentication</li>
-    <li>Chat history storage</li>
-    <li>Voice-based interaction</li>
-    <li>Mobile application</li>
-  </ul>
-</section>
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight"||e.key==="ArrowDown"){
+    index=(index+1)%slides.length;
+    showSlide(index);
+  }
+  if(e.key==="ArrowLeft"||e.key==="ArrowUp"){
+    index=(index-1+slides.length)%slides.length;
+    showSlide(index);
+  }
+});
 
-<!-- CONCLUSION -->
-<section class="slide conclusion">
-  <h2>Conclusion</h2>
-  <p>
-    MindCare AI demonstrates how Python and AI can be used to solve real-world
-    problems. The project provided practical experience in full-stack
-    development and modern UI design.
-  </p>
-  <h3>Thank You</h3>
-</section>
+document.getElementById("fsBtn").onclick=()=>{
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen();
+  }else{
+    document.exitFullscreen();
+  }
+};
+</script>
 
-<script src="script.js"></script>
 </body>
 </html>
